@@ -27,10 +27,15 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date?", function (req, res) {
   const date_string = req.params.date;
 
-  if (date_string.match(/\d{5,}/)) {
+  if (!date_string) {
+
+    res.json({ unix: new Date().valueOf(), utc: new Date().toUTCString() });
+
+  } else if (date_string.match(/\d{5,}/)) {
     const dateInt = parseInt(date_string);
 
     res.json({ unix: dateInt, utc: new Date(dateInt).toUTCString() });
+
   } else {
     const dateObject = new Date(date_string);
 
